@@ -9,52 +9,23 @@ angular.module('sticky', [])
 		link: function($scope, $elem, $attrs){
 			$timeout(function(){
 				var offsetTop = $scope.offset || 0,
-					$window = angular.element(window),
-					doc = document.documentElement,
-					initialPositionStyle = $elem.css('position'),
-					stickyLine,
-					scrollTop;
+				        $window = angular.element(window);
 
 
-				// Set the top offset
-				//
-				$elem.css('top', offsetTop+'px');
-
-
-				// Get the sticky line
-				//
-				function setInitial(){
-					stickyLine = $elem[0].offsetTop - offsetTop;
-					checkSticky();
-				}
-
-				// Check if the window has passed the sticky line
+				// Check if our anchor has passed the top of the window
 				//
 				function checkSticky(){
-					scrollTop = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-
-					if ( scrollTop >= stickyLine ){
-						$elem.css('position', 'fixed');
+					if ($elem.parent()[0].getBoundingClientRect().top - offsetTop <= 0 ) {
+						$elem.css({ top: offsetTop + 'px', position: 'fixed' });
 					} else {
-						$elem.css('position', initialPositionStyle);
+						$elem.css({ top: null, position: null });
 					}
 				}
 
+				// keep position after changing our sticky element to position fixed
+				$elem.wrap("<div class='sticky-anchor'></div>");
 
-				// Handle the resize event
-				//
-				function resize(){
-					$elem.css('position', initialPositionStyle);
-					$timeout(setInitial);
-				}
-
-
-				// Attach our listeners
-				//
 				$window.on('scroll', checkSticky);
-				$window.on('resize', resize);
-				
-				setInitial();
 			});
 		},
 	};
