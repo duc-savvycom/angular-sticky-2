@@ -18,7 +18,7 @@ angular.module('sticky', [])
 					if ($elem.parent()[0].getBoundingClientRect().top - offsetTop <= 0 ) {
 						$elem.css({ top: offsetTop + 'px', position: 'fixed' });
 					} else {
-						$elem.css({ top: null, position: null });
+						$elem.css({ top: '', position: '' });
 					}
 				}
 
