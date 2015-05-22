@@ -18,8 +18,10 @@ angular.module('sticky', [])
 
           if ($elem.parent()[0].getBoundingClientRect().top - offsetTop <= 0 ) {
             $elem.css({ top: offsetTop + 'px', position: 'fixed' });
+            if (!$elem.hasClass('stuck')) $elem.addClass('stuck');
           } else {
             $elem.css({ top: '', position: '' });
+            if ($elem.hasClass('stuck')) $elem.removeClass('stuck');
           }
         }
 
