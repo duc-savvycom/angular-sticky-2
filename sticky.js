@@ -11,7 +11,6 @@ angular.module('sticky', [])
         var offsetTop = $scope.offset || 0,
                 $window = angular.element(window);
 
-
         // Check if our anchor has passed the top of the window
         //
         function checkSticky(){
