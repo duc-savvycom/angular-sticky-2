@@ -15,10 +15,12 @@ angular.module('sticky', [])
 				// Check if our anchor has passed the top of the window
 				//
 				function checkSticky(){
+          if ($elem[0].offsetHeight === 0) return; // return if not visible
+
 					if ($elem.parent()[0].getBoundingClientRect().top - offsetTop <= 0 ) {
 						$elem.css({ top: offsetTop + 'px', position: 'fixed' });
 					} else {
-						$elem.css({ top: null, position: null });
+						$elem.css({ top: '', position: '' });
 					}
 				}
 
