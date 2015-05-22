@@ -7,6 +7,12 @@ angular.module('sticky', [])
       offset: '@',
     },
     link: function($scope, $elem, $attrs){
+      var anchorWidth;
+
+      function setAnchorWidth() {
+        return anchorWidth = window.getComputedStyle($elem.parent()[0], null).getPropertyValue('width');
+      }
+
       $timeout(function(){
         var offsetTop = $scope.offset || 0,
                 $window = angular.element(window);
@@ -17,16 +23,17 @@ angular.module('sticky', [])
           if ($elem[0].offsetHeight === 0) return; // return if not visible
 
           if ($elem.parent()[0].getBoundingClientRect().top - offsetTop <= 0 ) {
-            $elem.css({ top: offsetTop + 'px', position: 'fixed' });
+            $elem.css({ top: offsetTop + 'px', position: 'fixed', width: anchorWidth || setAnchorWidth() });
             if (!$elem.hasClass('stuck')) $elem.addClass('stuck');
           } else {
-            $elem.css({ top: '', position: '' });
+            $elem.css({ top: '', position: '', width: '' });
             if ($elem.hasClass('stuck')) $elem.removeClass('stuck');
           }
         }
 
         // keep position after changing our sticky element to position fixed
         $elem.wrap("<div class='sticky-anchor'></div>");
+        setAnchorWidth();
 
         $window.on('scroll', checkSticky);
       });
