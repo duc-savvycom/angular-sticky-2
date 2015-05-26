@@ -1,6 +1,6 @@
 angular.module('sticky', [])
 
-.directive('sticky', ['$timeout', function($timeout){
+.directive('sticky', ['$rootScope', '$timeout', function($rootScope, $timeout) {
   return {
     restrict: 'A',
     scope: {
@@ -45,6 +45,12 @@ angular.module('sticky', [])
         checkSticky();
 
         $window.on('scroll', checkSticky);
+      });
+
+      $rootScope.$on('angularSticky.reflow', function() {
+        setAnchorWidth();
+        setAnchorHeight();
+        checkSticky();
       });
     },
   };
